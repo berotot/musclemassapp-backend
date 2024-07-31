@@ -4,6 +4,12 @@ const { ObjectId } = require("mongodb");
 const moment = require("moment/moment");
 
 const recomendLatihan = (dataWorkout, weight) => {
+  // Langkah Normalisasi Bobot Kriteria
+  const normalizeWeights = (weights) => {
+    const totalWeight = weights.reduce((acc, w) => acc + w, 0);
+    return weights.map((w) => w / totalWeight);
+  };
+
   // Langkah 1: Normalisasi matriks
   const normalizeMatrix = (data) => {
     const criteriaCount = data[0].weight_criteria.length;
@@ -20,12 +26,17 @@ const recomendLatihan = (dataWorkout, weight) => {
       });
     }
 
+    // console.log('Normalized Matrix:', normalized); // Log hasil normalisasi matriks
     return normalized;
   };
 
   // Langkah 2: Hitung matriks terbobot
   const weightedMatrix = (normalized, weights) => {
-    return normalized.map((row) => row.map((value, i) => value * weights[i]));
+    const weighted = normalized.map((row) =>
+      row.map((value, i) => value * weights[i])
+    );
+    // console.log('Weighted Matrix:', weighted); // Log hasil matriks terbobot
+    return weighted;
   };
 
   // Langkah 3: Tentukan solusi ideal positif dan negatif
@@ -65,8 +76,11 @@ const recomendLatihan = (dataWorkout, weight) => {
   };
 
   // Implementasi keseluruhan TOPSIS
+  const normalizedWeights = normalizeWeights(weight);
+  // console.log('Normalized Weights:', normalizedWeights); // Log hasil normalisasi bobot
+
   const normalized = normalizeMatrix(dataWorkout);
-  const weighted = weightedMatrix(normalized, weight);
+  const weighted = weightedMatrix(normalized, normalizedWeights);
   const { idealPositive, idealNegative } = idealSolutions(weighted);
   const distances = distanceToIdeals(weighted, idealPositive, idealNegative);
   const scores = preferenceScores(distances);
@@ -78,27 +92,35 @@ const recomendLatihan = (dataWorkout, weight) => {
       score: scores[i],
     }))
     .filter((workout) => workout.score >= 0.4) // Menghilangkan latihan dengan skor < 0.4
-    .sort((a, b) => b.score - a.score);
+    .sort((a, b) => b.score - a.score); // Mengurutkan berdasarkan skor dari tinggi ke rendah
 
   return recommendations;
 };
 
-
 module.exports = {
   recomendedGetLatihan: async (req, res) => {
     const dataKriteria = [
-      parseFloat(req.body.bmi),
+      parseFloat(req.body.bmi) < 18.5
+        ? 3
+        : parseFloat(req.body.bmi) < 24.9
+        ? 2
+        : parseFloat(req.body.bmi) < 29.9
+        ? 1
+        : 1,
       parseFloat(req.body.intensitas),
       parseFloat(req.body.endurance),
     ];
- console.log(dataKriteria)
+    
+    //     Underweight: BMI < 18.5
+    // Normal weight: 18.5 ≤ BMI < 24.9
+    // Overweight: 25 ≤ BMI < 29.9
+
     try {
       const db = await connectToDatabase();
       const collection = db.collection("workouts");
       const LatihanExc = await collection
-        .find({ muscleGroup: "perut", difficulty: req.params._diff })
+        .find({ muscleGroup: req.params._type, difficulty: req.params._diff })
         .toArray();
-        console.log(LatihanExc)
       const result = recomendLatihan(LatihanExc, dataKriteria);
       // await collection2.insertOne(data);
       return res
@@ -139,8 +161,8 @@ module.exports = {
   },
   postActivity: async (req, res) => {
     const data = {
-      _uid: new ObjectId(req.body._uid),
-      date_activity: moment().format("DDMMYYYY"),
+      _uid: new ObjectId(req.user._id),
+      date_activity: moment().toDate(),
       muscleGroup: req.body.muscleGroup,
       point_activity: parseInt(req.body.totals_excercise),
       totals_excercise: parseInt(req.body.totals_excercise),

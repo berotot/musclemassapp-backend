@@ -22,14 +22,15 @@ const router = require("express").Router();
 
 // ========================================== VISITOR ======================================================
 router.get("/api/v1/user/leaderboard", LeaderBoardUsers);
-router.get("/api/v1/user/profile", Profile);
+router.get("/api/v1/user/profile",VerifyToken, Profile);
 router.get("/api/v1/user", DashboardUser);
-router.post("/api/v1/user/latihan/recomended/:_diff/:_type",recomendedGetLatihan
+router.post(
+  "/api/v1/user/latihan/recomended/:_diff/:_type",
+  recomendedGetLatihan
 );
 router.post("/api/v1/user/latihan/:_diff/:_type", norecomendedGetLatihan);
-router.post("/api/v1/user/latihan/activity", postActivity);
-router.get("/api/v1/user/latihan/activitycurrent", getCurrentLatihan);
-
+router.post("/api/v1/user/latihan/activity", VerifyToken,postActivity);
+router.get("/api/v1/user/latihan/activitycurrent", VerifyToken,getCurrentLatihan);
 
 // ===================================== ADMIN =============================================================
 router.get("/api/v1/admin", getDataLatihan);

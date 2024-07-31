@@ -4,13 +4,36 @@ const { ObjectId } = require("mongodb");
 
 module.exports = {
   Profile: async (req, res) => {
-    
     try {
       const db = await connectToDatabase();
       const collection = db.collection("users");
-      const result = await collection.findOne({
-        _id: new ObjectId(req.user._id),
-      });
+      const result = await collection.aggregate([
+        {
+          $match: { _id: new ObjectId(req.user._id) }
+        },
+        {
+          $lookup: {
+            from: 'user_activity', 
+            localField: '_id',
+            foreignField: '_uid',
+            as: 'activities'
+          }
+        },
+        {
+          $addFields: {
+            totalPoints: { $sum: '$activities.point_activity' }
+          }
+        },
+        {
+          $project: {
+            _id: 1,
+            username: 1,
+            email: 1,
+            totalPoints: 1,
+           
+          }
+        }
+      ]).toArray();
 
       return res.status(200).send(ApiResponse("Success get data profile", true, 200, result));
     } catch (error) {

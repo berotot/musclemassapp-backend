@@ -76,6 +76,37 @@ module.exports = {
         .send(ApiResponse("Ada problem nih " + error, false, 500, []));
     }
   },
+  RegisterV2: async (req, res) => {
+    const data = {
+      username: req.body.username,
+      email: req.body.username+"@gmail.com",
+      password: req.body.username,
+      role: "visitor",
+      profilePath: null,
+    };
+    try {
+      const db = await connectToDatabase();
+      const collection = db.collection("users");
+      const result = await collection.findOne({
+        username: data.username,
+      });
+      if (result) {
+        return res
+          .status(400)
+          .send(ApiResponse("Username sudah di gunakan", false, 400, []));
+      }
+     
+      // data.password =  data.password
+       await collection.insertOne(data);
+      return res
+        .status(200)
+        .send(ApiResponse("Akun kamu sudah bisa di gunakan", true, 200, [{email:data.email,password:data.password}]));
+    } catch (error) {
+      return res
+        .status(500)
+        .send(ApiResponse("Ada problem nih " + error, false, 500, []));
+    }
+  },
   VerifyToken: (req, res, next) => {
     const { authorization } = req.headers;
     const token = authorization ? authorization.split(" ")[1] : null;

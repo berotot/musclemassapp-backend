@@ -10,18 +10,31 @@ module.exports = {
       const collection = db.collection("user_activity");
       const result = await collection.aggregate([
         {
+          $lookup: {
+            from: 'users',
+            localField: '_uid',
+            foreignField: '_id',
+            as: 'user_info'
+          }
+        },
+        {
+          $unwind: '$user_info'
+        },
+        {
           $group: {
-            _id: "$_uid",
-            total_points: { $sum: "$point_activity" }
+            _id: '$user_info._id',
+            username: { $first: '$user_info.username' },
+            profilPath: { $first: '$user_info.profilPath' },
+            total_points: { $sum: '$point_activity' }
           }
         },
         {
           $sort: { total_points: -1 }
         },
         {
-          $limit: 10
+          $limit: 100
         }
-      ]).toArray();;
+      ]).toArray();
       return res.status(200).send(ApiResponse("Success", true, 200, result));
     } catch (error) {
       return res.status(500).json({ message: "Ada problem nih " + error });
