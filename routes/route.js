@@ -23,6 +23,7 @@ const router = require("express").Router();
 // ========================================== VISITOR ======================================================
 router.get("/api/v1/user/leaderboard", VerifyToken,LeaderBoardUsers);
 router.get("/api/v1/user/profile",VerifyToken, Profile);
+router.put("/api/v1/user/profile",VerifyToken, Profile);
 router.get("/api/v1/user", VerifyToken,DashboardUser);
 router.post(
   "/api/v1/user/latihan/recomended/:_diff/:_type",VerifyToken,
