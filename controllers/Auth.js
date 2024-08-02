@@ -2,6 +2,8 @@ const { connectToDatabase } = require("../config/database");
 const { ApiResponse } = require("../config/ApiResponse.js");
 const jwt = require("jsonwebtoken");
 const { ObjectId } = require("mongodb");
+require("dotenv").config();
+
 module.exports = {
   Login: async (req, res) => {
     const email = req.body.email;
@@ -24,7 +26,7 @@ module.exports = {
           email: result.email,
           _id: await result._id.toString(),
         };
-        const token = jwt.sign(payload, "vladimir-handsup", {
+        const token = jwt.sign(payload, process.env.KEY_PRIVATE, {
           expiresIn: "1d",
         });
         return res
@@ -100,7 +102,7 @@ module.exports = {
        await collection.insertOne(data);
       return res
         .status(200)
-        .send(ApiResponse("Akun kamu sudah bisa di gunakan", true, 200, [{email:data.email,password:data.password}]));
+        .send(ApiResponse("Akun kamu sudah bisa di gunakan", true, 200, [{username:data.username,email:data.email,password:data.password}]));
     } catch (error) {
       return res
         .status(500)
