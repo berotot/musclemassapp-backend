@@ -36,10 +36,8 @@ module.exports = {
     const check = req.body;
     let hasError = false;
     let hasRegex = false;
-    const antiCheck = ["profilePath"];
+    const antiCheck = ["profilePath","contentPath"];
 
-
-    console.log(req.body)
     antiCheck.forEach((res) => {
       delete check[res];
     });
