@@ -24,13 +24,13 @@ app.use(
   })
 );
 const limiter = rateLimit({
-  windowMs: 30 * 60 * 1000, // 15 menit
+  windowMs: 10 * 60 * 1000, // 15 menit
   max: 25, // membatasi setiap IP menjadi 100 permintaan per windowMs
   message: 'Terlalu banyak permintaan dari IP ini, harap coba lagi nanti.',
   headers: true,
 });
 
-app.use(limiter);
+// app.use(limiter);
 app.get("/", (req, res) => {
   res.status(200).send({ msg: "💤welcome to api muscle mass app 💤" });
 });
