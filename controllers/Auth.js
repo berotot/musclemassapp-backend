@@ -157,7 +157,7 @@ module.exports = {
     }
     next();
   },
-  ValidRolefitnessUser: async (req, res, next) => {
+  ValidRoleVisitor: async (req, res, next) => {
     const db = await connectToDatabase();
     const collection = db.collection("users");
     const role = await collection.findOne(
@@ -174,10 +174,10 @@ module.exports = {
         .send(ApiResponse("Ini siapa ya ? 🙈 ", false, 403, []));
     }
 
-    if (role.role !== "fitnessUser") {
+    if (role.role !== "visitor") {
       return res
         .status(403)
-        .send(ApiResponse("Dilarang ke sini client punya 🙈 ", false, 403, []));
+        .send(ApiResponse("Dilarang ke sini pengujung punya 🙈 ", false, 403, []));
     }
 
     next();
