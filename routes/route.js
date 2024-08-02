@@ -21,7 +21,7 @@ const {
 const router = require("express").Router();
 
 // ========================================== VISITOR ======================================================
-router.get("/api/v1/user/leaderboard", LeaderBoardUsers);
+router.get("/api/v1/user/leaderboard", VerifyToken,LeaderBoardUsers);
 router.get("/api/v1/user/profile",VerifyToken, Profile);
 router.get("/api/v1/user", DashboardUser);
 router.post(
