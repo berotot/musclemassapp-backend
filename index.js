@@ -37,7 +37,7 @@ app.get("/", (req, res) => {
 
 app.post("/api/v1/auth/login", CheckValidationAuth, Login);
 app.post("/api/v1/auth/signup", CheckValidationRegister, Register);
-app.post("/api/v2/auth/signupv2", RegisterV2);
+// app.post("/api/v2/auth/signupv2", RegisterV2);
 app.post("/api/v1/auth/logout", Logout);
 app.use("/", appRoute);
 

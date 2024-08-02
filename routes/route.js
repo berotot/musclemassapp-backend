@@ -28,7 +28,7 @@ router.post(
   "/api/v1/user/latihan/recomended/:_diff/:_type",
   recomendedGetLatihan
 );
-router.post("/api/v1/user/latihan/:_diff/:_type", norecomendedGetLatihan);
+router.post("/api/v1/user/latihan/:_diff/:_type", VerifyToken,norecomendedGetLatihan);
 router.post("/api/v1/user/latihan/activity", VerifyToken,postActivity);
 router.get("/api/v1/user/latihan/activitycurrent", VerifyToken,getCurrentLatihan);
 

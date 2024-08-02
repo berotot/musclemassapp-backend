@@ -64,7 +64,6 @@ module.exports = {
     }
     next();
   },
-
   CheckValidationRegister: async (req, res, next) => {
     const email = req.body.email;
     const username = req.body.username;
