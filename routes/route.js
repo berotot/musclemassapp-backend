@@ -25,7 +25,7 @@ router.get("/api/v1/user/leaderboard", VerifyToken,LeaderBoardUsers);
 router.get("/api/v1/user/profile",VerifyToken, Profile);
 router.get("/api/v1/user", DashboardUser);
 router.post(
-  "/api/v1/user/latihan/recomended/:_diff/:_type",
+  "/api/v1/user/latihan/recomended/:_diff/:_type",VerifyToken,
   recomendedGetLatihan
 );
 router.post("/api/v1/user/latihan/:_diff/:_type", VerifyToken,norecomendedGetLatihan);
