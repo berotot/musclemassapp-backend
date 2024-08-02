@@ -115,7 +115,7 @@ module.exports = {
     if (!token) {
       return res.status(401).json({ message: "ini saatnya login" });
     }
-    jwt.verify(token, "vladimir-handsup", (err, decoded) => {
+    jwt.verify(token, process.env.KEY_PRIVATE, (err, decoded) => {
       if (err) {
         return res
           .status(401)
