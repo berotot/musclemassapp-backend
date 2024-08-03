@@ -122,19 +122,18 @@ module.exports = {
         .find({ muscleGroup: req.params._type, difficulty: req.params._diff })
         .toArray();
       const result = recomendLatihan(LatihanExc, dataKriteria);
-      // await collection2.insertOne(data);
       return res
         .status(200)
         .send(
           ApiResponse(
-            "Success get recomend workout excercise ",
+            "Berhasil",
             true,
             200,
             result
           )
         );
     } catch (error) {
-      return res.status(500).json({ message: "Ada problem nih " + error });
+      return res.status(500).send(ApiResponse( "Ada problem nih " + error , false, 500, result));
     }
   },
   norecomendedGetLatihan: async (req, res) => {
