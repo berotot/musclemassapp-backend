@@ -15,7 +15,7 @@ module.exports = {
       return res
         .status(200)
         .send(
-          ApiResponse("Success get  data general", true, 200, activity,
+          ApiResponse("Berhasil", true, 200, activity,
           )
         );
     } catch (error) {
