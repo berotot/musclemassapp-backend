@@ -89,7 +89,7 @@ module.exports = {
         .status(200)
         .send(ApiResponse("Berhasil menghapus data", true, 200, []));
     } catch (error) {
-      return res.status(500).json({ message: "Ada problem nih " + error });
+      return res.status(500).send(ApiResponse( "Ada problem nih " + error , false, 500, result));
     }
   },
 };
