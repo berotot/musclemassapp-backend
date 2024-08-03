@@ -43,7 +43,7 @@ module.exports = {
   EditProfile: async (req, res) => {
     try {
       const db = await connectToDatabase();
-      const collection = db.collection("user");
+      const collection = db.collection("users");
       const updateFields = {};
   
       if (req.body.username) {
@@ -76,14 +76,18 @@ module.exports = {
         return res.status(400).send(ApiResponse(`Tidak ada data yang diperbarui`, false, 400, []));
       }
   
-      await collection.updateOne(
+    const result = await collection.updateOne(
         { _id: new ObjectId(req.user._id) },
         { $set: updateFields }
       );
   
-      return res.status(200).send(ApiResponse("Berhasil", true, 200, updateFields));
+      if (result.modifiedCount === 0) {
+        return res.status(400).send(ApiResponse("Tidak ada data yang diperbarui", false, 400, []));
+      }
+  
+      return res.status(200).send(ApiResponse("Berhasil mengubah data", true, 200, updateFields));
     } catch (error) {
-      return res.status(500).send(ApiResponse( "Ada problem nih " + error , false, 500, []));
+      return res.status(500).json({ message: "Ada problem nih " + error });
     }
   }
   
