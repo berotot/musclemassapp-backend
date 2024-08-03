@@ -33,7 +33,7 @@ const limiter = rateLimit({
 
 // app.use(limiter);
 app.get("/", (req, res) => {
-  res.status(200).send({ msg: "💤welcome to api muscle mass app💤"+process.env.KEY_PRIVATE });
+  res.status(200).send({ msg: "💤welcome to api muscle mass app💤" });
 });
 
 app.post("/api/v1/auth/login", CheckValidationAuth, Login);

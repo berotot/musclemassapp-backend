@@ -184,11 +184,10 @@ module.exports = {
       const collection = db.collection("user_activity");
       const result = await collection
         .find({ _uid: new ObjectId(req.user._id) })
-        .toArray();
-
+        .toArray();  
       return res
         .status(200)
-        .send(ApiResponse("Success get activity  current ", true, 200, result));
+        .send(ApiResponse("Berhasil", true, 200, result));
     } catch (error) { 
       return res.status(500).send(ApiResponse( "Ada problem nih " + error , false, 500, []));
     }
