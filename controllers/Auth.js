@@ -109,11 +109,11 @@ module.exports = {
     const { authorization } = req.headers;
     const token = authorization ? authorization.split(" ")[1] : null;
     if (!token) {
-      return res.status(401).send(ApiResponse( "Silahkan login dahulu" + error , false, 401, result));
+      return res.status(401).send(ApiResponse( "Silahkan login dahulu" , false, 401, result));
     }
     jwt.verify(token, process.env.KEY_PRIVATE, (err, decoded) => {
       if (err) {
-        return res.status(401).send(ApiResponse( "Sesi kamu sudah habis" + error , false, 401, result));
+        return res.status(401).send(ApiResponse( "Sesi kamu sudah habis" + err , false, 401, result));
       } else {
         req.user = decoded;
         next();
