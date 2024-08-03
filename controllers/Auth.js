@@ -113,9 +113,7 @@ module.exports = {
     }
     jwt.verify(token, process.env.KEY_PRIVATE, (err, decoded) => {
       if (err) {
-        return res
-          .status(401)
-          .json({ message: "Sesi sudah habis saatnya login" });
+        return res.status(401).send(ApiResponse( "Sesi kamu sudah habis" + error , false, 401, result));
       } else {
         req.user = decoded;
         next();
