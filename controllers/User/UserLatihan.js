@@ -149,14 +149,14 @@ module.exports = {
         .status(200)
         .send(
           ApiResponse(
-            "Success get not recomend workout excercise ",
+            "Berhasil",
             true,
             200,
             result
           )
         );
     } catch (error) {
-      return res.status(500).json({ message: "Ada problem nih " + error });
+      return res.status(500).send(ApiResponse( "Ada problem nih " + error , false, 500, result));
     }
   },
   postActivity: async (req, res) => {
