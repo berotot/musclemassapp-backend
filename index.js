@@ -11,7 +11,7 @@ const {
   CheckValidationAuth,
   CheckValidationRegister,
 } = require("./config/Checker");
-const ApiResponse = require("./config/ApiResponse");
+const {ApiResponse} = require("./config/ApiResponse");
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
