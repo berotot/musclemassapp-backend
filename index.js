@@ -19,7 +19,7 @@ app.use(bodyParser.json());
 
 app.use(
   cors({
-    origin: ["http://localhost:3000", "https://musclemassapp.vercel.app"],
+    origin: ["http://localhost:3000", "https://musclemassappv2.vercel.app"],
     methods: ["POST", "PUT", "GET", "DELETE", "OPTIONS", "HEAD"],
     credentials: true,
   })
