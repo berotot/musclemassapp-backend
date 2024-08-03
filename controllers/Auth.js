@@ -109,7 +109,7 @@ module.exports = {
     const { authorization } = req.headers;
     const token = authorization ? authorization.split(" ")[1] : null;
     if (!token) {
-      return res.status(401).json({ message: "ini saatnya login" });
+      return res.status(401).send(ApiResponse( "Silahkan login dahulu" + error , false, 401, result));
     }
     jwt.verify(token, process.env.KEY_PRIVATE, (err, decoded) => {
       if (err) {
