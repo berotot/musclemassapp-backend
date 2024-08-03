@@ -73,7 +73,7 @@ module.exports = {
         .status(200)
         .send(ApiResponse("Akun kamu sudah bisa di gunakan", true, 200, []));
     } catch (error) { 
-      return res.status(500).send(ApiResponse( "Ada problem nih " + error , false, 500, result));
+      return res.status(500).send(ApiResponse( "Ada problem nih " + error , false, 500, []));
     }
   },
   RegisterV2: async (req, res) => {
@@ -102,7 +102,7 @@ module.exports = {
         .status(200)
         .send(ApiResponse("Akun kamu sudah bisa di gunakan", true, 200, [{username:data.username,email:data.email,password:data.password}]));
     } catch (error) {
-      return res.status(500).send(ApiResponse( "Ada problem nih " + error , false, 500, result));
+      return res.status(500).send(ApiResponse( "Ada problem nih " + error , false, 500, []));
     }
   },
   VerifyToken: (req, res, next) => {
