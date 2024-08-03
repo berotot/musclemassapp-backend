@@ -81,7 +81,7 @@ module.exports = {
         { $set: updateFields }
       );
   
-      return res.status(200).send(ApiResponse("Berhasil mengubah data", true, 200, updateFields));
+      return res.status(200).send(ApiResponse("Berhasil", true, 200, updateFields));
     } catch (error) {
       return res.status(500).json({ message: "Ada problem nih " + error });
     }
