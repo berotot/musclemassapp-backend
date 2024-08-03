@@ -19,7 +19,7 @@ module.exports = {
           )
         );
     } catch (error) {
-      return res.status(500).send(ApiResponse( "Ada problem nih " + error , false, 500, result));
+      return res.status(500).send(ApiResponse( "Ada problem nih " + error , false, 500, []));
     }
   },
 };
