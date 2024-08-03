@@ -35,7 +35,7 @@ module.exports = {
         }
       ]).toArray();
 
-      return res.status(200).send(ApiResponse("Success get data profile", true, 200, result));
+      return res.status(200).send(ApiResponse("Berhasil", true, 200, result));
     } catch (error) {
       return res.status(500).send(ApiResponse( "Ada problem nih " + error , false, 500, result));
     }
