@@ -63,7 +63,7 @@ module.exports = {
 
       return res
         .status(200)
-        .send(ApiResponse("Success edit data", true, 200, result));
+        .send(ApiResponse("Berhasil", true, 200, result));
     } catch (error) {
       return res.status(500).json({ message: "Ada problem nih " + error });
     }
