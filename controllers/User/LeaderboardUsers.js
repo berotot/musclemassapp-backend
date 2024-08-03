@@ -35,9 +35,9 @@ module.exports = {
           $limit: 100
         }
       ]).toArray();
-      return res.status(200).send(ApiResponse("Success", true, 200, result));
+      return res.status(200).send(ApiResponse("Berhasil", true, 200, result));
     } catch (error) {
-      return res.status(500).json({ message: "Ada problem nih " + error });
+      return res.status(500).send(ApiResponse( "Ada problem nih " + error , false, 500, result));
     }
   },
   
