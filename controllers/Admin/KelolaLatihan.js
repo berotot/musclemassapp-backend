@@ -37,7 +37,7 @@ module.exports = {
 
       return res
         .status(200)
-        .send(ApiResponse("Success send data", true, 200, result));
+        .send(ApiResponse("Berhasil", true, 200, result));
     } catch (error) { 
       return res.status(500).send(ApiResponse( "Ada problem nih " + error , false, 500, result));
     }
@@ -65,7 +65,7 @@ module.exports = {
         .status(200)
         .send(ApiResponse("Berhasil", true, 200, result));
     } catch (error) {
-      return res.status(500).json({ message: "Ada problem nih " + error });
+      return res.status(500).send(ApiResponse( "Ada problem nih " + error , false, 500, result));
     }
   },
   deleteDataLatihan: async (req, res) => {
