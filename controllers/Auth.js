@@ -40,7 +40,7 @@ module.exports = {
         .status(401)
         .send(ApiResponse("Email atau password salah ", false, 401, []));
     } catch (error) {
-      return res.status(500).send(ApiResponse( "Ada problem nih " + error , false, 500, result));
+      return res.status(500).send(ApiResponse( "Ada problem nih " + error , false, 500, []));
     }
   },
   Register: async (req, res) => {
