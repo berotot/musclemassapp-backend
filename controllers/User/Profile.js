@@ -41,45 +41,50 @@ module.exports = {
     }
   },
   EditProfile: async (req, res) => {
-    const data = {
-      username: req.body.username,
-      password: req.body.password,
-      email: req.body.email,
-    };
     try {
       const db = await connectToDatabase();
       const collection = db.collection("user");
-      const name = await collection.findOne({
-        username: data.username,
-        _id: { $not: { $eq: new ObjectId(req.user._id) } },
-      });
-      const email = await collection.findOne({
-        email: data.email,
-        _id: { $not: { $eq: new ObjectId(req.user._id) } },
-      });
-     
-      const resultCheck = name || email;
-      if (resultCheck) {
-        return res
-          .status(400)
-          .send(
-            ApiResponse(
-              `Data sudah di gunakan `,
-              false,
-              400,
-              []
-            )
-          );
+      const updateFields = {};
+  
+      if (req.body.username) {
+        const name = await collection.findOne({
+          username: req.body.username,
+          _id: { $not: { $eq: new ObjectId(req.user._id) } },
+        });
+        if (name) {
+          return res.status(400).send(ApiResponse(`Username sudah digunakan`, false, 400, []));
+        }
+        updateFields.username = req.body.username;
       }
+  
+      if (req.body.email) {
+        const email = await collection.findOne({
+          email: req.body.email,
+          _id: { $not: { $eq: new ObjectId(req.user._id) } },
+        });
+        if (email) {
+          return res.status(400).send(ApiResponse(`Email sudah digunakan`, false, 400, []));
+        }
+        updateFields.email = req.body.email;
+      }
+  
+      if (req.body.password) {
+        updateFields.password = req.body.password;
+      }
+  
+      if (Object.keys(updateFields).length === 0) {
+        return res.status(400).send(ApiResponse(`Tidak ada data yang diperbarui`, false, 400, []));
+      }
+  
       await collection.updateOne(
         { _id: new ObjectId(req.user._id) },
-        { $set: data }
+        { $set: updateFields }
       );
-      return res
-        .status(200)
-        .send(ApiResponse("Berhasil mengubah data", true, 200, data));
+  
+      return res.status(200).send(ApiResponse("Berhasil mengubah data", true, 200, updateFields));
     } catch (error) {
       return res.status(500).json({ message: "Ada problem nih " + error });
     }
   }
+  
 };
