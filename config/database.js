@@ -7,8 +7,9 @@ const connectToDatabase = async () => {
         await client.connect();
         return client.db(process.env.DATABASE_NAME);
     } catch (error) {
-        console.error('Gagal terhubung ke DB ');
+        console.error('Gagal terhubung ke DB');
         throw error;
+        
     }
 }
 

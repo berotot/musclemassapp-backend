@@ -3,7 +3,7 @@ const appRoute = require("./routes/route");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const rateLimit = require('express-rate-limit');
-
+require("dotenv").config();
 
 const app = express();
 const { Login, Register, Logout, RegisterV2 } = require("./controllers/Auth");
@@ -33,12 +33,12 @@ const limiter = rateLimit({
 
 // app.use(limiter);
 app.get("/", (req, res) => {
-  res.status(200).send({ msg: "💤welcome to api muscle mass app 💤" });
+  res.status(200).send({ msg: "💤welcome to api muscle mass app💤"+process.env.KEY_PRIVATE });
 });
 
 app.post("/api/v1/auth/login", CheckValidationAuth, Login);
 app.post("/api/v1/auth/signup", CheckValidationRegister, Register);
-// app.post("/api/v2/auth/signupv2", RegisterV2);
+// app.post("/api/v2/auth/signupv2", RegisterV2);;
 app.post("/api/v1/auth/logout", Logout);
 app.use("/", appRoute);
 
