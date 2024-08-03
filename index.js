@@ -11,6 +11,7 @@ const {
   CheckValidationAuth,
   CheckValidationRegister,
 } = require("./config/Checker");
+const ApiResponse = require("./config/ApiResponse");
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -26,7 +27,7 @@ app.use(
 const limiter = rateLimit({
   windowMs: 10 * 60 * 1000, // 15 menit
   max: 25, // membatasi setiap IP menjadi 100 permintaan per windowMs
-  message: 'Terlalu banyak permintaan dari IP ini, harap coba lagi nanti.',
+  message: ApiResponse( "Terlalu banyak melakukan request", false, 500, []),
   headers: true,
 });
 
