@@ -89,7 +89,7 @@ module.exports = {
         .status(200)
         .send(ApiResponse("Berhasil", true, 200, []));
     } catch (error) {
-      return res.status(500).send(ApiResponse( "Ada problem nih " + error , false, 500, result));
+      return res.status(500).send(ApiResponse( "Ada problem nih " + error , false, 500, []));
     }
   },
 };
