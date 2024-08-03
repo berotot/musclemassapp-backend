@@ -87,7 +87,7 @@ module.exports = {
       await collection.deleteOne({ _id: new ObjectId(req.params._id) });
       return res
         .status(200)
-        .send(ApiResponse("Berhasil menghapus data", true, 200, []));
+        .send(ApiResponse("Berhasil", true, 200, []));
     } catch (error) {
       return res.status(500).json({ message: "Ada problem nih " + error });
     }
